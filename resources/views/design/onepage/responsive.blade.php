@@ -251,5 +251,5 @@
 
     </script>
 </body>
-수정됨 commit
+
 </html>
