@@ -151,10 +151,11 @@
                     </g>
                 </svg>
             </div>
-
             <script>
                 var today_array = @json($corona_by_cities);
                 var today_vaccines = @json($vaccines);
+                var vaccine_history = @json($vaccineHistory);
+                
                 console.log(today_vaccines);
                 [].forEach.call(document.querySelectorAll('.svgmap path'), function(item) {
 

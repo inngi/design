@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CoronaController;
 use App\Http\Controllers\GambleController;
 use App\Http\Controllers\JusoController;
@@ -53,3 +54,5 @@ require __DIR__ . '/auth.php';
 
 // website design
 Route::get('/onepage', [OnpageController::class, 'responsive']);
+
+Route::resource('admin/category',CategoryController::class);
