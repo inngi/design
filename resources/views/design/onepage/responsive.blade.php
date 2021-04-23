@@ -202,7 +202,7 @@
 <body>
     <section class="sec">
         <header>
-            <a href="#" class="logo">Logo</a>
+            <a href="#" class="logo">inngi</a>
             <div class="toggleMenu" onclick="toggleMenu()"></div>
             <ul class="navigation">
                 <li>
@@ -227,7 +227,7 @@
             <div class="textBx">
                 <h2>Responsive<br><span>Webdesign</span></h2>
                 <p>Responsive Webdesign 은 반응형 웹디자인을 말합니다. 스크린 사이즈에 상관없이, 모니터, 모바일 등 디바이스에 상관없이 디자인이 깨지지 않습니다.</p>
-                <a href="http://">learn more</a>
+                <a href="#">learn more</a>
             </div>
         </div>
         <div class="custom-shape-divider-bottom-1619070603">

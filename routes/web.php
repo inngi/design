@@ -54,5 +54,6 @@ require __DIR__ . '/auth.php';
 
 // website design
 Route::get('/onepage', [OnpageController::class, 'responsive']);
+Route::get('/calendar', [OnpageController::class, 'calendar']);
 
 Route::resource('admin/category',CategoryController::class);

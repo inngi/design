@@ -10,4 +10,7 @@ class OnpageController extends Controller
     public function responsive(){
         return view('design.onepage.responsive');
     }
+    public function calendar(){
+        return view('design.onepage.calendar');
+    }
 }
