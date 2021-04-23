@@ -31,14 +31,17 @@
 
         //name of the months
         monthName = {
-            full: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            // full: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            full: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
             mmm: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         },
 
         //name of the days
         dayName = {
+            // full: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
             full: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-            d: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+            // d: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+            d: ['일', '월', '화', '수', '목', '금', '토'],
             dd: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
             ddd: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
         };
@@ -167,7 +170,7 @@
         if (option.monthformat === "mmm") {
             elem.innerHTML = data.monthName + " " + data.year;
         } else if (option.monthformat === "full") {
-            elem.innerHTML = data.monthNameFull + " " + data.year;
+            elem.innerHTML = data.year + "년 " +  data.monthNameFull+'월';
         }
 
         //add month span to header div
@@ -342,12 +345,11 @@
         result.today.dayIndex = idx;
         result.today.dayName = dateString[0];
         result.today.dayFullName = dayName.full[idx];
-
         idx = monthName.mmm.indexOf(dateString[1]);
         result.today.monthIndex = idx;
         result.today.monthName = dateString[1];
         result.today.monthNameFull = monthName.full[idx];
-
+        
         result.today.date = dateObj.getDate();
 
         result.today.year = dateString[3];

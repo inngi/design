@@ -49,25 +49,7 @@
             transform: translate(250px, 150px);
         }
 
-        .custom-shape-divider-bottom-1619070603 {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            overflow: hidden;
-            line-height: 0;
-        }
-
-        .custom-shape-divider-bottom-1619070603 svg {
-            position: relative;
-            display: block;
-            width: calc(162% + 1.3px);
-            height: 168px;
-        }
-
-        .custom-shape-divider-bottom-1619070603 .shape-fill {
-            fill: #FFFFFF;
-        }
+        
 
         header {
             position: absolute;
@@ -106,6 +88,68 @@
         .box {
             position: relative;
             z-index: 1000;
+        }
+        @media (max-width:991px) {
+            header {
+                padding: 40px 40px;
+            }
+
+            header ul.navigation {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(#03a9f4, #b6cb30);
+                z-index: 100;
+                display: none;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+
+            header ul.navigation.active {
+                display: flex;
+            }
+
+            header .navigation li a {
+                text-decoration: none;
+                margin-left: 0;
+                color: #fff;
+                font-size: 30px;
+            }
+
+            header .toggleMenu {
+                position: relative;
+                width: 30px;
+                height: 30px;
+                background: url(images/design/hamburger.png);
+                background-size: 130px;
+                background-repeat: no-repeat;
+                background-position: center;
+                z-index: 1000;
+                cursor: pointer;
+            }
+
+            header .toggleMenu.active {
+                position: fixed;
+                right: 40px;
+                background: url(images/design/close.png);
+                background-size: 130px;
+                background-repeat: no-repeat;
+                background-position: center;
+                z-index: 1000;
+                cursor: pointer;
+            }
+
+            .sec {
+
+                justify-content: center;
+                align-items: center;
+                padding: 40px;
+                flex-direction: column
+            }
+
         }
 
         .container {
