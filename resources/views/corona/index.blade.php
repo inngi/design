@@ -2,6 +2,9 @@
     <div class="">
         <link rel="stylesheet" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
         <script src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"
+            integrity="sha512-BqNYFBAzGfZDnIWSAEGZSD/QFKeVxms2dIBPfw11gZubWwKUjEgmFUtUls8vZ6xTRZN/jaXGHD/ZaxD9+fDo0A=="
+            crossorigin="anonymous"></script>
         <style>
             th,
             td {
@@ -25,14 +28,69 @@
 
         </style>
         <h1></h1>
+        {{-- {{ dd($vaccineHistory) }} --}}
+        {{-- calendar --}}
+        <link rel="stylesheet" href="{{ asset('css/dycalendar.css') }}">
+        <style>
+            #dycalendar{
+                width:100%;
+                background-color:rgba(0,0,0,0.5);
+                color:white;
+                padding:15px;
+                font-weight:600;
+                border-radius:15px;
+            }
+            section{
+                position:absolute;
+                left:60px;
+                top:100px;
+            }
+            .dycalendar-month-container .dycalendar-today-date, .dycalendar-month-container .dycalendar-target-date {
+                background-color:white;
+                color:black;
+                border-radius:5px;
+            }
+            td{
+                padding:2px;
+                font-size:1.2em;
+                
+            }
+            .dycalendar-month-container .dycalendar-span-month-year {
+                font-size:1.2em;
+            }
+            .dycalendar-month-container .dycalendar-header .dycalendar-prev-next-btn.prev-btn, .dycalendar-month-container .dycalendar-header .dycalendar-prev-next-btn.next-btn{
+                font-size:1.2em;
+            }
+        </style>
+        <section>
+            <div class="box">
+                <div class="container">
+                    <div id="dycalendar"></div>
+                </div>
+            </div>
+        </section>
+
+        <script src="{{ asset('js/dycalendar.js') }}"></script>
+        <script>
+            dycalendar.draw({
+                target: '#dycalendar',
+                type: 'month',
+                dayformat: 'full',
+                monthformat: 'full',
+                highlighttargetdate: true,
+                prevnextbutton: 'show'
+            })
+
+        </script>
+
 
         <div class="items-center justify-center grid pt-10">
             <div class="items-center">
                 <h1 class="text-3xl text-center">국내 코로나 상황판</h1>
                 <h2 class="text-center pt-5"><span class="text-red-500 text-2xl">
                         {{ $corona_by_cities[0]['incDec'] }}</span> 명 확진 <br>
-                        <span class="text-green-500">{{ $vaccines[0]['firstCnt'] }}</span> 명 1차접종<br><br>
-                        {{ $corona_by_cities[0]['stdDay'] }} 기준
+                    <span class="text-green-500">{{ $vaccines[0]['firstCnt'] }}</span> 명 1차접종<br><br>
+                    {{ $corona_by_cities[0]['stdDay'] }} 기준
                 </h2>
             </div>
             <div class="svgmap -mb-32">
@@ -80,7 +138,11 @@
                     }
 
                 </style>
+
+
                 {{-- <svg style='background:#eaeaea;overflow:visible' height="1107" width="800" xmlns="http://www.w3.org/2000/svg"> --}}
+                {{-- 날짜 --}}
+                
                 <div id="info-box"></div>
                 <svg style='background:;overflow:visible' height="1107" width="800" viewBox="-300 150 1100 1100"
                     xmlns="http://www.w3.org/2000/svg">
@@ -154,9 +216,8 @@
             <script>
                 var today_array = @json($corona_by_cities);
                 var today_vaccines = @json($vaccines);
-                var vaccine_history = @json($vaccineHistory);
-                
-                console.log(today_vaccines);
+
+                // console.log(today_vaccines);
                 [].forEach.call(document.querySelectorAll('.svgmap path'), function(item) {
 
                     item.addEventListener('mouseenter', function() {
@@ -169,7 +230,7 @@
                             // 날짜
                             +
                             today_array[this.getAttribute('code')]['createDt'].split(' ')[0] +
-                            ' '  + '0시 기준 (공공DATA)' +
+                            ' ' + '0시 기준 (공공DATA)' +
                             '</div>'
 
 
@@ -193,7 +254,9 @@
                             '<div><span class="text-green-500"><백신></span><br>'
                             // 예방접종 시작
                             +
-                            '당일 1차접종자: <span class="text-green-500">' + today_vaccines[[this.getAttribute('code')]]['firstCnt'] +
+                            '당일 1차접종자: <span class="text-green-500">' + today_vaccines[[this
+                                .getAttribute('code')
+                            ]]['firstCnt'] +
                             '</span> 명<br>' +
                             '당일 2차접종자: ' + today_vaccines[[this.getAttribute('code')]]['secondCnt'] +
                             ' 명<br>' +
@@ -215,6 +278,64 @@
                 }).mouseover();
 
             </script>
+            <div class="pb-20">
+                {{-- chartjs --}}
+                <canvas id="myChart" width="400" height="200"></canvas>
+                {{-- {{ dd($vaccineHistory) }} --}}
+                <script>
+                    var data = @json($vaccineHistory);
+                    // console.log(data);
+                    var labels = data.map(function(e) {
+                        return e.date;
+                    });
+                    var values = data.map(function(e) {
+                        return e.firstCnt;
+                    });
+                    // console.log(values)
+                    var ctx = document.getElementById('myChart');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: '# 1차 예방접종',
+                                data: values,
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    // 'rgba(54, 162, 235, 0.2)',
+                                    // 'rgba(255, 206, 86, 0.2)',
+                                    // 'rgba(75, 192, 192, 0.2)',
+                                    // 'rgba(153, 102, 255, 0.2)',
+                                    // 'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    // 'rgba(54, 162, 235, 1)',
+                                    // 'rgba(255, 206, 86, 1)',
+                                    // 'rgba(75, 192, 192, 1)',
+                                    // 'rgba(153, 102, 255, 1)',
+                                    // 'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+
+                        options: {
+
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            },
+
+                        }
+                    });
+
+                </script>
+                {{-- end of chartjs --}}
+            </div>
+
             <table id="covid" class="text-xl">
                 <caption class="text-2xl">코로나 발생 현황</caption>
                 <thead>
@@ -274,18 +395,18 @@
                 <tbody>
                     @foreach ($vaccines as $cities)
                         @if ($cities['sido'] == '전국')
-                        @continue
-                    @endif
-                    <tr>
+                            @continue
+                        @endif
+                        <tr>
 
-                        <td>{{ $cities['sido'] }}</td>
-                        <td>{{ $cities['firstCnt'] }}</td>
-                        <td>{{ $cities['secondCnt'] }}</td>
-                        <td>{{ $cities['totalFirstCnt'] }}</td>
-                        <td>{{ $cities['totalSecondCnt'] }}</td>
-                        {{-- <td>{{ $cities['localOccCnt'] }}</td> --}}
-                        {{-- <td>{{ $cities['overFlowCnt'] }}</td> --}}
-                        @endforeach
+                            <td>{{ $cities['sido'] }}</td>
+                            <td>{{ $cities['firstCnt'] }}</td>
+                            <td>{{ $cities['secondCnt'] }}</td>
+                            <td>{{ $cities['totalFirstCnt'] }}</td>
+                            <td>{{ $cities['totalSecondCnt'] }}</td>
+                            {{-- <td>{{ $cities['localOccCnt'] }}</td> --}}
+                            {{-- <td>{{ $cities['overFlowCnt'] }}</td> --}}
+                    @endforeach
                     </tr>
 
                 </tbody>
@@ -317,7 +438,9 @@
                             },
                             "search": "검색",
                         },
-                        "order": [[ 1, "desc" ]]
+                        "order": [
+                            [1, "desc"]
+                        ]
                         // "serverSide": true,
                         // "ajax": "scripts/server_processing.php"
                     });
@@ -336,11 +459,14 @@
                             },
                             "search": "검색",
                         },
-                        "order": [[ 1, "desc" ]]
+                        "order": [
+                            [1, "desc"]
+                        ]
                         // "serverSide": true,
                         // "ajax": "scripts/server_processing.php"
                     });
                 });
+
             </script>
             <div class="py-20"></div>
         </div>

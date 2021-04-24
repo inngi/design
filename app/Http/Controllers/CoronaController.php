@@ -281,8 +281,9 @@ class CoronaController extends Controller
                 $i++;
                 continue;
             }
+            // date( 'Y-m-d', strtotime( $date . ' -1 day' ) );
             $v_history = VaccineHistory::firstOrCreate([
-                "date"=>$response['data'][$i]['baseDate'],
+                "date"=>date('Y-m-d', strtotime(explode(' ',$response['data'][$i]['baseDate'])[0] . '-1 day')),
                 "firstCnt"=>$response['data'][$i]['firstCnt'],
                 "secondCnt"=>$response['data'][$i]['secondCnt'],
                 "totalFirstCnt"=>$response['data'][$i]['totalFirstCnt'],
