@@ -3,8 +3,10 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CoronaController;
 use App\Http\Controllers\GambleController;
+use App\Http\Controllers\InstagramController;
 use App\Http\Controllers\JusoController;
 use App\Http\Controllers\NasaController;
+use App\Http\Controllers\OauthController;
 use App\Http\Controllers\OnpageController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+    return redirect('/corona');
 });
 Route::get('/welcome', function () {
     return view('welcome');
@@ -57,3 +59,7 @@ Route::get('/onepage', [OnpageController::class, 'responsive']);
 Route::get('/calendar', [OnpageController::class, 'calendar']);
 
 Route::resource('admin/category',CategoryController::class);
+
+//instagram
+Route::get('/instagram',[InstagramController::class,'index']);
+Route::get('/wow', [OauthController::class, 'index']);

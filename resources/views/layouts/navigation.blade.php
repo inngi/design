@@ -16,9 +16,9 @@
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link> --}}
-                    <x-nav-link href="welcome" :active="request()->routeIs('welcome')">
+                    {{-- <x-nav-link href="welcome" :active="request()->routeIs('welcome')">
                         {{ __('Dev') }}
-                    </x-nav-link>
+                    </x-nav-link> --}}
                     <x-nav-link href="/nasa" :active="request()->routeIs('welcome')">
                         {{ __('NASA') }}
                     </x-nav-link>
